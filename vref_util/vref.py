@@ -10,7 +10,6 @@ with open(vref_dot_txt_path) as f:
         line.strip(): index
         for index, line in enumerate(vref)
     }
-    print(vref)
 
 class Vref:
     def __init__(self, vref_file):
