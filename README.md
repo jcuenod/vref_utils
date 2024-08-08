@@ -65,8 +65,8 @@ Note that `__get_item__` (the function called by `niv["JHN 3:16"]`) always retur
 
 ```python
 print(niv["JHN 3:16"][0].text)
-
 # For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.
+
 print(niv["JHN 3:16"][0].reference)
 # JHN 3:16
 ```
