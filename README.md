@@ -99,6 +99,18 @@ print(niv["JHN 3:16-JHN 3:17,JHN 3:18"])
   - ❌ `JHN 1:1-1:2`
   - ✅ `JHN 1:1-JHN 1:2`
 
+### Custom Versification Formats
+
+By default, the `org` versification system is used (and packaged in `vref-util`). If you have vref files that use a different versification system, you can specify it when creating the `Vref` object.
+
+```python
+from vref_util import Vref
+
+niv = Vref("./en-NIV11.txt", "custom_vref.txt")
+# or, with named arguments:
+niv = Vref("./en-MYBIBLE.txt", versification_vref_path="custom_vref.txt")
+```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
