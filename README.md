@@ -62,7 +62,7 @@ print(str(jhn3v16))
 # For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.
 ```
 
-Note that `__get_item__` (the function called by `niv["JHN 3:16"]`) always returns an array of `Verse` objects.
+Note that `__get_item__` (the function called by `niv["JHN 3:16"]`) returns a `List[Verse]`. So we grab the first element with `[0]` to get the `Verse`.
 
 ```python
 print(jhn3v16)
