@@ -57,17 +57,25 @@ from vref_util import Vref
 
 niv = Vref("./en-NIV11.txt")
 
-print(str(niv["JHN 3:16"][0]))
+jhn3v16 = niv["JHN 3:16"][0]
+print(str(jhn3v16))
 # For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.
 ```
 
-Note that `__get_item__` (the function called by `niv["JHN 3:16"]`) always returns an array of `Verse` objects. In the case above, getting the first element and casting it to a string would print the text. You can also return the verse text using the `.text` attribute. Likewise, you can get the verse reference using the `.reference` attribute.
+Note that `__get_item__` (the function called by `niv["JHN 3:16"]`) always returns an array of `Verse` objects.
 
 ```python
-print(niv["JHN 3:16"][0].text)
+print(jhn3v16)
+# Verse(verse="JHN 3:16", text="For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.")
+```
+
+In the case above, getting the first element and casting it to a string would print the text. You can also return the verse text using the `.text` attribute. Likewise, you can get the verse reference using the `.reference` attribute.
+
+```python
+print(jhn3v16.text)
 # For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.
 
-print(niv["JHN 3:16"][0].reference)
+print(jhn3v16.reference)
 # JHN 3:16
 ```
 
