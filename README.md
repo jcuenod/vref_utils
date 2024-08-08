@@ -46,7 +46,7 @@
 To install, use your favorite package manager and do the equivalent of:
 
 ```sh
-pip install vref_util
+pip install vref-util
 ```
 
 <!-- USAGE EXAMPLES -->
