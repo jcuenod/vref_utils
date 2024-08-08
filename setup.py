@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='vref_util',
-    version='0.0.1',
+    version='0.0.2',
     packages=find_packages(),
     author='James Cuénod',
     author_email='j3frea+github@gmail.com',

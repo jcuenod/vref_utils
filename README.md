@@ -56,10 +56,40 @@ pip install vref_util
 from vref_util import Vref
 
 niv = Vref("./en-NIV11.txt")
-print(niv["JHN 3:16"])
 
+print(str(niv["JHN 3:16"][0]))
 # For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.
 ```
+
+Note that `__get_item__` (the function called by `niv["JHN 3:16"]`) always returns an array of `Verse` objects. In the case above, getting the first element and casting it to a string would print the text. You can also return the verse text using the `.text` attribute. Likewise, you can get the verse reference using the `.reference` attribute.
+
+```python
+print(niv["JHN 3:16"][0].text)
+
+# For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.
+print(niv["JHN 3:16"][0].reference)
+# JHN 3:16
+```
+
+Printing the reference is not useful when there is only one verse, but you can select multiple verses using ranges like "JHN 3:16-JHN 3:17" or selections like "JHN 3:16,JHN 3:17" or a combination of both like "JHN 3:16,JHN 3:17-JHN 3:18".
+
+```python
+print(niv["JHN 3:16-JHN 3:17,JHN 3:18"])
+# [
+#   Verse(verse="JHN 3:16", text="For God so loved the world that he gave his one and only Son,..."),
+#   Verse(verse="JHN 3:17", text="For God did not send his Son into the world to condemn the wo..."),
+#   Verse(verse="JHN 3:18", text="Whoever believes in him is not condemned, but whoever does no...")
+# ]
+```
+
+**Note:**
+
+- Book names must be valid USFM book names.
+- Chapter and verse numbers must be valid.
+- Books and chapters must be specified in full for ranges/selections.
+  - ❌ `JHN 1:1-2`
+  - ❌ `JHN 1:1-1:2`
+  - ✅ `JHN 1:1-JHN 1:2`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
