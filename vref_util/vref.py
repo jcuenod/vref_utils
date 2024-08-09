@@ -34,16 +34,16 @@ class Vref:
     
     def _get_ranges_and_selections(self, key):
         selections = key.split(",")
-        lines = []
+        verse_keys = []
         for selection in selections:
             if "-" in selection:
                 start, end = selection.split("-")
                 verse_keys = get_versification_range(start.strip(), end.strip(), self.verse_to_line_mappings)
-                lines.extend([self._get_verse(v) for v in verse_keys])
+                verse_keys.extend(verse_keys)
             else:
                 verse_key = selection.strip()
-                lines.append(self._get_verse(verse_key))
-        return lines
+                verse_keys.append(verse_key)
+        return [self._get_verse(v) for v in verse_keys]
     
     def _get_verse(self, ref):
         line_number = self.verse_to_line_mappings[ref]
