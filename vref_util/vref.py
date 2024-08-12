@@ -1,14 +1,14 @@
 import linecache
 from .verse import Verse
+from .verse_list import VerseList
 from .versification import get_versification_mapping, get_versification_range
-from typing import List
 
 class Vref:
     def __init__(self, vref_file, versification_vref_path=None):
         self.vref_file = vref_file
         self.verse_to_line_mappings = get_versification_mapping() if versification_vref_path is None else get_versification_mapping(versification_vref_path)
 
-    def __getitem__(self, key: str) -> List[Verse]:
+    def __getitem__(self, verse_range_and_or_selections: str) -> VerseList:
         """
         Returns a list of Verse objects based on the key provided. The key
         can be a single verse reference, a comma-separated list of verse
@@ -28,23 +28,36 @@ class Vref:
         Returns:
             list[Verse]: A list of Verse objects for the requested verses.
         """
-        if "," in key or "-" in key:
-            return self._get_ranges_and_selections(key)
-        return [self._get_verse(key)]
+        if "," in verse_range_and_or_selections or "-" in verse_range_and_or_selections:
+            return self._get_verse_list_for_ranges_and_selections(verse_range_and_or_selections)
+        
+        return self._get_verse_list_for_one_verses(verse_range_and_or_selections)
     
-    def _get_ranges_and_selections(self, key):
-        selections = key.split(",")
-        verse_keys = []
+    def __iter__(self):
+        for verse_key in self.verse_to_line_mappings.keys():
+            yield self._get_verse(verse_key)
+    
+    def _get_verse_list_for_ranges_and_selections(self, verse_range_and_or_selections: str):
+        return VerseList(lambda: self._get_ranges_and_selections(verse_range_and_or_selections))
+
+    def _get_ranges_and_selections(self, verse_range_and_or_selections: str):
+        selections = verse_range_and_or_selections.split(",")
         for selection in selections:
             if "-" in selection:
                 start, end = selection.split("-")
                 verse_keys = get_versification_range(start.strip(), end.strip(), self.verse_to_line_mappings)
-                verse_keys.extend(verse_keys)
+                for verse_key in verse_keys:
+                    yield self._get_verse(verse_key)
             else:
                 verse_key = selection.strip()
-                verse_keys.append(verse_key)
-        return [self._get_verse(v) for v in verse_keys]
+                yield self._get_verse(verse_key)
+
+    def _get_verse_list_for_one_verses(self, verse_range: str):
+        return VerseList(lambda: self._yield_one_verse(verse_range))
+
+    def _yield_one_verse(self, verse_key: str):
+        yield self._get_verse(verse_key)
     
-    def _get_verse(self, ref):
+    def _get_verse(self, ref: str):
         line_number = self.verse_to_line_mappings[ref]
         return Verse(ref, linecache.getline(self.vref_file, line_number).strip())

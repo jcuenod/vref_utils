@@ -58,18 +58,18 @@ from vref_util import Vref
 niv = Vref("./en-NIV11.txt")
 
 jhn3v16 = niv["JHN 3:16"][0]
-print(str(jhn3v16))
+print(jhn3v16)
 # For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.
 ```
 
-Note that `__get_item__` (the function called by `niv["JHN 3:16"]`) returns a `List[Verse]`. So we grab the first element with `[0]` to get the `Verse`.
+Note that `__get_item__` (the function called by `niv["JHN 3:16"]`) returns a `VerseList`. The `VerseList` class allows us to iterate through the verses using a generator, but we can also access elements using indices or slices. Here, we use `[0]` to get the first (and only) `Verse`.
 
 ```python
-print(jhn3v16)
+print(repr(jhn3v16))
 # Verse(verse="JHN 3:16", text="For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.")
 ```
 
-In the case above, getting the first element and casting it to a string would print the text. You can also return the verse text using the `.text` attribute. Likewise, you can get the verse reference using the `.reference` attribute.
+The `Verse` class supports the `__str__` and `__repr__` methods. So casting the first element to a string by printing it prints the text. You can also return the verse text using the `.text` attribute. Likewise, you can get the verse reference using the `.reference` attribute.
 
 ```python
 print(jhn3v16.text)
@@ -83,11 +83,11 @@ Printing the reference is not useful when there is only one verse, but you can s
 
 ```python
 print(niv["JHN 3:16-JHN 3:17,JHN 3:18"])
-# [
+# VerseList([
 #   Verse(verse="JHN 3:16", text="For God so loved the world that he gave his one and only Son,..."),
 #   Verse(verse="JHN 3:17", text="For God did not send his Son into the world to condemn the wo..."),
 #   Verse(verse="JHN 3:18", text="Whoever believes in him is not condemned, but whoever does no...")
-# ]
+# ])
 ```
 
 **Note:**
