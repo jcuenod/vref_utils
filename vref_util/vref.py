@@ -57,6 +57,9 @@ class Vref:
         for verse_key in self.verse_to_line_mappings.keys():
             yield self._get_verse(verse_key)
 
+    def __len__(self):
+        return len(self.verse_to_line_mappings)
+
     def _get_verse_list_for_ranges_and_selections(
         self, verse_range_and_or_selections: str
     ):
