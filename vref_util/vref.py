@@ -1,12 +1,24 @@
 import linecache
+import os
 
 from .verse import Verse
 from .verse_list import VerseList
 from .versification import get_versification_mapping, get_versification_range
 
 
+def exists_or_raise(file_path, message):
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(message)
+
+
 class Vref:
     def __init__(self, vref_file, versification_vref_path=None):
+        exists_or_raise(vref_file, f"Vref file not found: {vref_file}")
+        exists_or_raise(
+            versification_vref_path,
+            f"File not found (versification_vref_path): {versification_vref_path}",
+        ) if versification_vref_path is not None else None
+
         self.vref_file = vref_file
         self.verse_to_line_mappings = (
             get_versification_mapping()
