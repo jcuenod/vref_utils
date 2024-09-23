@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="vref_util",
+    name="vref_utils",
     version="0.0.5",
     packages=find_packages(),
     author="James Cuénod",
