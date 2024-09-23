@@ -18,21 +18,21 @@
 <a name="readme-top"></a>
 
 <div align="center">
-  <h1 align="center">Vref Util</h3>
+  <h1 align="center">Vref Utils</h3>
 
   <p align="center">
     Tools to work with vref files
     <br />
-    <!-- <a href="https://github.com/jcuenod/vref_util"><strong>Explore the docs »</strong></a>
+    <!-- <a href="https://github.com/jcuenod/vref_utils"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/jcuenod/vref_util">View Demo</a>
+    <a href="https://github.com/jcuenod/vref_utils">View Demo</a>
     · -->
-    <a href="https://github.com/jcuenod/vref_util/issues">Report Bug</a>
+    <a href="https://github.com/jcuenod/vref_utils/issues">Report Bug</a>
     ·
-    <a href="https://github.com/jcuenod/vref_util/issues">Request Feature</a>
+    <a href="https://github.com/jcuenod/vref_utils/issues">Request Feature</a>
     <!-- ·
-    <a href="https://jcuenod.github.io/vref_util-examples/">Live Demo</a> -->
+    <a href="https://jcuenod.github.io/vref_utils-examples/">Live Demo</a> -->
   </p>
 </div>
 
@@ -46,14 +46,14 @@
 To install, use your favorite package manager and do the equivalent of:
 
 ```sh
-pip install vref-util
+pip install vref-utils
 ```
 
 <!-- USAGE EXAMPLES -->
 ### Usage
 
 ```python
-from vref_util import Vref
+from vref_utils import Vref
 
 niv = Vref("./en-NIV11.txt")
 
@@ -101,10 +101,10 @@ print(niv["JHN 3:16-JHN 3:17,JHN 3:18"])
 
 ### Custom Versification Formats
 
-By default, the `org` versification system is used (and packaged in `vref-util`). If you have vref files that use a different versification system, you can specify it when creating the `Vref` object.
+By default, the `org` versification system is used (and packaged in `vref-utils`). If you have vref files that use a different versification system, you can specify it when creating the `Vref` object.
 
 ```python
-from vref_util import Vref
+from vref_utils import Vref
 
 niv = Vref("./en-NIV11.txt", "custom_vref.txt")
 # or, with named arguments:
@@ -144,13 +144,13 @@ Distributed under the MIT License. See `LICENSE.md` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/jcuenod/vref_util.svg?style=for-the-badge
-[contributors-url]: https://github.com/jcuenod/vref_util/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/jcuenod/vref_util.svg?style=for-the-badge
-[forks-url]: https://github.com/jcuenod/vref_util/network/members
-[stars-shield]: https://img.shields.io/github/stars/jcuenod/vref_util.svg?style=for-the-badge
-[stars-url]: https://github.com/jcuenod/vref_util/stargazers
-[issues-shield]: https://img.shields.io/github/issues/jcuenod/vref_util.svg?style=for-the-badge
-[issues-url]: https://github.com/jcuenod/vref_util/issues
-[license-shield]: https://img.shields.io/github/license/jcuenod/vref_util.svg?style=for-the-badge
-[license-url]: https://github.com/jcuenod/vref_util/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/jcuenod/vref_utils.svg?style=for-the-badge
+[contributors-url]: https://github.com/jcuenod/vref_utils/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/jcuenod/vref_utils.svg?style=for-the-badge
+[forks-url]: https://github.com/jcuenod/vref_utils/network/members
+[stars-shield]: https://img.shields.io/github/stars/jcuenod/vref_utils.svg?style=for-the-badge
+[stars-url]: https://github.com/jcuenod/vref_utils/stargazers
+[issues-shield]: https://img.shields.io/github/issues/jcuenod/vref_utils.svg?style=for-the-badge
+[issues-url]: https://github.com/jcuenod/vref_utils/issues
+[license-shield]: https://img.shields.io/github/license/jcuenod/vref_utils.svg?style=for-the-badge
+[license-url]: https://github.com/jcuenod/vref_utils/blob/master/LICENSE.txt
