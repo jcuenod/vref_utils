@@ -9,7 +9,7 @@ setup(
     description="Tools to work with vref files (e.g., in the ebible corpus)",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/jcuenod/vref_util",
+    url="https://github.com/jcuenod/vref_utils",
     license="MIT",
     classifiers=[
         "Programming Language :: Python :: 3",

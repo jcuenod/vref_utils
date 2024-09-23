@@ -12,7 +12,7 @@ This is configured to happen automatically through Github actions **when a new r
 To build the package, run:
 
 ```bash
-pip uninstall vref_util
+pip uninstall vref_utils
 rm -rf dist
 python setup.py sdist
 ```
@@ -20,7 +20,7 @@ python setup.py sdist
 To install the package locally, run:
 
 ```bash
-pip install ./dist/vref_util-<version-number>.tar.gz
+pip install ./dist/vref_utils-<version-number>.tar.gz
 ```
 
 # Tests
