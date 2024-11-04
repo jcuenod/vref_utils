@@ -58,7 +58,11 @@ class Vref:
             yield self._get_verse(verse_key)
 
     def __len__(self):
-        return len(self.verse_to_line_mappings)
+        count = 0
+        for verse in self:
+            if len(verse.text) > 0:
+                count += 1
+        return count
 
     def _get_verse_list_for_ranges_and_selections(
         self, verse_range_and_or_selections: str
