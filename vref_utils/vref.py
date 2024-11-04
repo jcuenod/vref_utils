@@ -19,8 +19,8 @@ class Vref:
             f"File not found (versification_vref_path): {versification_vref_path}",
         ) if versification_vref_path is not None else None
 
-        self.vref_file = vref_file
-        self.verse_to_line_mappings = (
+        self._vref_file = vref_file
+        self._verse_to_line_mappings = (
             get_versification_mapping()
             if versification_vref_path is None
             else get_versification_mapping(versification_vref_path)
@@ -54,7 +54,7 @@ class Vref:
         return self._get_verse_list_for_one_verses(verse_range_and_or_selections)
 
     def __iter__(self):
-        for verse_key in self.verse_to_line_mappings.keys():
+        for verse_key in self._verse_to_line_mappings.keys():
             yield self._get_verse(verse_key)
 
     def __len__(self):
@@ -73,7 +73,7 @@ class Vref:
             if "-" in selection:
                 start, end = selection.split("-")
                 verse_keys = get_versification_range(
-                    start.strip(), end.strip(), self.verse_to_line_mappings
+                    start.strip(), end.strip(), self._verse_to_line_mappings
                 )
                 for verse_key in verse_keys:
                     yield self._get_verse(verse_key)
@@ -88,5 +88,5 @@ class Vref:
         yield self._get_verse(verse_key)
 
     def _get_verse(self, ref: str):
-        line_number = self.verse_to_line_mappings[ref]
-        return Verse(ref, linecache.getline(self.vref_file, line_number).strip())
+        line_number = self._verse_to_line_mappings[ref]
+        return Verse(ref, linecache.getline(self._vref_file, line_number).strip())
