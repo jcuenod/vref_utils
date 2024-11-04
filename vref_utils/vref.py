@@ -1,6 +1,7 @@
 import linecache
 import os
 
+from .book_lists import dt_books, nt_books, ot_books
 from .verse import Verse
 from .verse_list import VerseList
 from .versification import get_versification_mapping, get_versification_range
@@ -25,6 +26,59 @@ class Vref:
             if versification_vref_path is None
             else get_versification_mapping(versification_vref_path)
         )
+        self.stats = self._get_stats()
+
+    def _get_stats(self):
+        all_verses = self._verse_to_line_mappings.keys()
+        books = [v.split(" ")[0] for v in all_verses]
+        books_unique = list(dict.fromkeys(books))
+
+        def verses_in_book(book):
+            return [v for v in all_verses if v.split(" ")[0] == book]
+
+        def progress(verse_list):
+            count = 0
+            for ref in verse_list:
+                v = self._get_verse(ref)
+                if len(v.text) > 0:
+                    count += 1
+            return count, len(verse_list)
+
+        def aggregate_progress(verses_complete, corpus):
+            total = 0
+            count = 0
+            for book in corpus:
+                book_count, book_total = verses_complete[book]
+                count += book_count
+                total += book_total
+            return count / total
+
+        verses_in_vref_file = len(self)
+        progress_percentage = round(
+            verses_in_vref_file / len(self._verse_to_line_mappings), 1
+        )
+        verses_complete = {b: progress(verses_in_book(b)) for b in books_unique}
+
+        return {
+            "verses": verses_in_vref_file,
+            "progress": progress_percentage,
+            "summary": {
+                "whole_bible": progress_percentage,
+                "old_testament": round(
+                    aggregate_progress(verses_complete, ot_books), 1
+                ),
+                "new_testament": round(
+                    aggregate_progress(verses_complete, nt_books), 1
+                ),
+                "deuterocanonical": round(
+                    aggregate_progress(verses_complete, dt_books), 1
+                ),
+            },
+            "details": {
+                b: round(verses_complete[b][0] / verses_complete[b][1], 1)
+                for b in books_unique
+            },
+        }
 
     def __getitem__(self, verse_range_and_or_selections: str) -> VerseList:
         """
