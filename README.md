@@ -36,9 +36,8 @@
   </p>
 </div>
 
-
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 ### Installation
@@ -50,6 +49,7 @@ pip install vref-utils
 ```
 
 <!-- USAGE EXAMPLES -->
+
 ### Usage
 
 ```python
@@ -98,6 +98,8 @@ print(niv["JHN 3:16-JHN 3:17,JHN 3:18"])
   - ❌ `JHN 1:1-2`
   - ❌ `JHN 1:1-1:2`
   - ✅ `JHN 1:1-JHN 1:2`
+- May include multiple ranges/selections separated by ",".
+  - ✅ `JHN 1:1-JHN 1:2,JHN 1:4`
 
 ### Custom Versification Formats
 
@@ -113,9 +115,8 @@ niv = Vref("./en-MYBIBLE.txt", versification_vref_path="custom_vref.txt")
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -131,19 +132,17 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE.md` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/jcuenod/vref_utils.svg?style=for-the-badge
 [contributors-url]: https://github.com/jcuenod/vref_utils/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/jcuenod/vref_utils.svg?style=for-the-badge
