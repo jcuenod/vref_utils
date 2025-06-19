@@ -1,5 +1,6 @@
 import linecache
 import os
+from collections import Counter
 
 from .book_lists import dt_books, nt_books, ot_books
 from .verse import Verse
@@ -26,57 +27,69 @@ class Vref:
             if versification_vref_path is None
             else get_versification_mapping(versification_vref_path)
         )
-        self.stats = self._get_stats()
+        self._stats_cache = None
+
+    @property
+    def stats(self):
+        if self._stats_cache is None:
+            self._stats_cache = self._get_stats()
+        return self._stats_cache
 
     def _get_stats(self):
-        all_verses = self._verse_to_line_mappings.keys()
-        books = [v.split(" ")[0] for v in all_verses]
-        books_unique = list(dict.fromkeys(books))
-
-        def verses_in_book(book):
-            return [v for v in all_verses if v.split(" ")[0] == book]
-
-        def progress(verse_list):
-            count = 0
-            for ref in verse_list:
-                v = self._get_verse(ref)
-                if len(v.text) > 0:
-                    count += 1
-            return count, len(verse_list)
-
-        def aggregate_progress(verses_complete, corpus):
-            total = 0
-            count = 0
-            for book in corpus:
-                book_count, book_total = verses_complete[book]
-                count += book_count
-                total += book_total
-            return count / total
-
-        verses_in_vref_file = len(self)
-        progress_percentage = round(
-            verses_in_vref_file / len(self._verse_to_line_mappings), 1
+        # 1. Count the number of verses in each book and the total number of verses.
+        book_verse_totals = Counter(
+            ref.split(" ")[0] for ref in self._verse_to_line_mappings.keys()
         )
-        verses_complete = {b: progress(verses_in_book(b)) for b in books_unique}
+        books_unique = list(book_verse_totals.keys())
+        total_possible_verses = len(self._verse_to_line_mappings)
+
+        # 2. Create a reverse mapping from line number to verse reference.
+        line_to_verse_mapping = {v: k for k, v in self._verse_to_line_mappings.items()}
+
+        # 3. Iterate through the vref file ONCE, line by line.
+        #    This avoids loading the whole file into memory and allows us to
+        #    calculate all stats in a single pass.
+        verses_in_vref_file = 0
+        book_verse_completed = Counter()
+        with open(self._vref_file, "r") as f:
+            for line_num, line in enumerate(f, 1):
+                if line.strip():
+                    verses_in_vref_file += 1
+                    # Find the verse ref for this line number
+                    verse_ref = line_to_verse_mapping.get(line_num)
+                    if verse_ref:
+                        # Increment the completed count for the correct book
+                        book = verse_ref.split(" ")[0]
+                        book_verse_completed[book] += 1
+
+        # 4. Calculate final stats using the pre-computed data.
+        progress_percentage = (
+            round(verses_in_vref_file / total_possible_verses, 1)
+            if total_possible_verses > 0
+            else 0
+        )
+
+        def aggregate_progress(corpus_books):
+            count = sum(book_verse_completed[book] for book in corpus_books)
+            total = sum(book_verse_totals[book] for book in corpus_books)
+            return round(count / total, 1) if total > 0 else 0
 
         return {
             "verses": verses_in_vref_file,
             "progress": progress_percentage,
             "summary": {
                 "whole_bible": progress_percentage,
-                "old_testament": round(
-                    aggregate_progress(verses_complete, ot_books), 1
-                ),
-                "new_testament": round(
-                    aggregate_progress(verses_complete, nt_books), 1
-                ),
-                "deuterocanonical": round(
-                    aggregate_progress(verses_complete, dt_books), 1
-                ),
+                "old_testament": aggregate_progress(ot_books),
+                "new_testament": aggregate_progress(nt_books),
+                "deuterocanonical": aggregate_progress(dt_books),
             },
             "details": {
-                b: round(verses_complete[b][0] / verses_complete[b][1], 1)
-                for b in books_unique
+                book: (
+                    round(book_verse_completed[book] / book_verse_totals[book] * 100, 1)
+                    if book_verse_totals[book] > 0
+                    else 0
+                )
+                for book in books_unique
             },
         }
 
